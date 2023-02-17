@@ -1,0 +1,9 @@
+The application's user makes a HTTP GET request to my BFF API. On this request the user is trying to search all the Credit Operations for a Company ID.
+
+So the BFF makes a HTTP GET request to the Credit Operations REST API which will make the search on its database by the Company ID informed on the URL to return to my BFF. Each Credit Operation object stored on the database of that Company has one Client object that have some sensible data like its SSN, but it doesn't have the Client ID. So after the Credit Operations REST API search on its database, it will have to call the Client REST API for each Client object informing on the URL the Client SSN attribute, because the Client REST API has the Client ID that is the only necessary data that the Credit Operations API should return to the BFF.
+
+But on this step of the Credit Operations REST API call the Client REST API for each Client object informing the SSN number on the URL, I know that it is very expensive.
+
+So I want to use the AWS Step Functions to orchestrate all the requests that must be made from the Credit Operations API to the Client REST API. I want that the AWS Step Functions receive a list of SSN numbers, and for each SSN number that it receives, it will call in parallel one AWS Lambda code. The AWS Lambda code receing one SSN number will make a GET request to the Client REST API informing the SSN number and return the returned data to the AWS Step Function. After all the AWS Lambdas execute, the AWS Step Function will join all the results and return to the Credit Operations API.
+
+Can you show me how the AWS Step Function code would be and the AWS Lambda code would be to solve my problem?

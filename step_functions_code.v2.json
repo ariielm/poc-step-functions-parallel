@@ -1,0 +1,27 @@
+{
+  "StartAt": "ParallelGetRequests",
+  "States": {
+    "ParallelGetRequests": {
+      "Type": "Parallel",
+      "InputPath": "$.ssn",
+      "ResultPath": "$.parallelResults",
+      "OutputPath": "$",
+      "End": true,
+      "Branches": [
+        {
+          "StartAt": "InvokeLambda",
+          "States": {
+            "InvokeLambda": {
+              "Type": "Task",
+              "Resource": "arn:aws:lambda:sa-east-1:884033490467:function:FUNCTION_NAME",
+              "InputPath": "$",
+              "OutputPath": "$",
+              "ResultPath": "$.response",
+              "End": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}
