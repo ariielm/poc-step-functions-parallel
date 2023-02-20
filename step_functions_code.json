@@ -1,0 +1,27 @@
+{
+  "StartAt": "MapClientIdsBySSNs",
+  "States": {
+    "MapClientIdsBySSNs": {
+      "Type": "Map",
+      "InputPath": "$",
+      "ItemsPath": "$.ssn",
+      "MaxConcurrency": 3,
+      "ItemProcessor": {
+        "ProcessorConfig": {
+          "Mode": "INLINE"
+        },
+        "StartAt": "GetClientIdBySSN",
+        "States": {
+          "GetClientIdBySSN": {
+            "Type": "Task",
+            "Resource": "arn:aws:lambda:sa-east-1:884033490467:function:getClientDataBySSN",
+            "InputPath": "$",
+            "ResultPath": "$",
+            "End": true
+          }
+        }
+      },
+      "End": true
+    }
+  }
+}

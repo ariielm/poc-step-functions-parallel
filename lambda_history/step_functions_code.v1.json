@@ -1,0 +1,31 @@
+{
+  "StartAt": "ParallelGetRequests",
+  "States": {
+    "ParallelGetRequests": {
+      "Type": "Parallel",
+      "InputPath": "$.ssnList",
+      "OutputPath": "$.parallelResults",
+      "ResultPath": "$.result",
+      "Parameters": {
+        "FunctionName": "your-get-request-lambda-function-name",
+        "Payload.$": "$$.Map.Item.Value"
+      },
+      "Iterator": {
+        "StartAt": "InvokeLambda",
+        "States": {
+          "InvokeLambda": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+            "Parameters": {
+              "FunctionName.$": "$.FunctionName",
+              "Payload.$": "$.Payload",
+              "TaskToken.$": "$$.Task.Token"
+            },
+            "End": true
+          }
+        }
+      },
+      "End": true
+    }
+  }
+}
