@@ -1,0 +1,7 @@
+bin/
+certifi*
+charset*
+idna*
+requests*
+url*
+getClientDataBySSN.zip
