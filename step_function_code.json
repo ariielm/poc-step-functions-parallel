@@ -17,7 +17,15 @@
             "Resource": "arn:aws:lambda:sa-east-1:884033490467:function:getClientDataBySSN",
             "InputPath": "$",
             "ResultPath": "$",
-            "End": true
+            "End": true,
+            "Retry": [
+              {
+                "ErrorEquals": [ "MyCustomException" ],
+                "IntervalSeconds": 2,
+                "MaxAttempts": 3,
+                "BackoffRate": 2.0
+              }
+            ]
           }
         }
       },

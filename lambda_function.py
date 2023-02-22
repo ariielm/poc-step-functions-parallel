@@ -1,8 +1,10 @@
 import requests
 import json
 
+class MyCustomException(Exception):
+    pass
+
 def lambda_handler(ssn, context):
-    print(f"Evento original: {ssn}")
     client_api_url = f"https://pocarielstepfunctions.free.beeceptor.com/ssn/{ssn}"
     headers = {"Content-Type": "application/json"}
 
@@ -12,4 +14,4 @@ def lambda_handler(ssn, context):
         client = json.loads(response.text)
         return {"client_id": client["ssn"]}
     else:
-        return {"error": f"Failed to fetch client data for ssn {ssn}"}
+        raise MyCustomException(f"Failed to fetch client data for ssn {ssn}")
